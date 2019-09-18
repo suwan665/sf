@@ -381,6 +381,15 @@ vec_proxy.sfc <- function(x, ...) {
 	x
 }
 
+vec_proxy.sf <- function(x, ...) {
+	structure(x, class = setdiff(class(x), "sf"))
+}
+
+vec_restore.sf <- function(x, ...) {
+	print("vec_restore.sf is being called")
+	st_as_sf(x)
+}
+
 register_all_s3_methods = function() {
 	register_s3_method("dplyr", "anti_join", "sf")
 	register_s3_method("dplyr", "arrange", "sf")
@@ -414,6 +423,8 @@ register_all_s3_methods = function() {
 	register_s3_method("pillar", "type_sum", "sfc")
 	register_s3_method("pillar", "pillar_shaft", "sfc")
 	register_s3_method("vctrs", "vec_proxy", "sfc")
+	register_s3_method("vctrs", "vec_proxy", "sf")
+	register_s3_method("vctrs", "vec_restore", "sf")
 }
 
 # from: https://github.com/tidyverse/hms/blob/master/R/zzz.R
