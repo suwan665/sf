@@ -2,11 +2,19 @@
 
 * add `st_reverse` methods to reverse points in a linestring (requires GEOS >= 3.7.0); #1246
 
+* write `stars` rasters with wkt info, rather than proj4strings
+
+* when GEOS >= 3.8.0, `st_make_valid` is provided by `sf` rather than by `lwgeom` #989
+
 * `st_make_grid` returns grid cells or points that intersect with the target geometry, not its bounding box; #1260
 
 * `st_make_valid` is now provided by `sf`, no longer by `lwgeom`, when GEOS 3.8.0 is available; #989
 
 # version 0.8-1
+
+* reorganize `crs` objects to reflect our post-proj4string world (#1146; #1225)
+
+* `st_as_sf.map` no longer requires `maptools` and `sp`; dropped dependency on maptools.
 
 * conditional to PROJ >= 6.0.0: replace `+init=epsg:XXXX ...` strings with the `XXXX` EPSG integer, to work around a bug in PROJ; see https://github.com/OSGeo/PROJ/pull/1875 and links therein. If there is a `...`, raise a warning that this is now ignored. 
 
