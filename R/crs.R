@@ -177,7 +177,7 @@ make_crs = function(x) {
 			if (length(x) > 1)
 				warning(paste("the following proj4string elements are ignored:",
 					paste(x[-1], collapse = " "), "; remove the +init=epsg:XXXX to undo this"))
-			x = paste0("EPSG:", as.integer(substr(x[1], 12, 20)))
+			x = paste0("EPSG:", as.integer(substr(x[1], 12, 20))) # nocov end
 		}
 		CPL_crs_from_input(x)
 	} else
@@ -370,15 +370,22 @@ print.crs = function(x, ...) {
   }
 }
 
+#' @name st_crs
 #' @export
+#' @details format.crs returns NA if the crs is missing valued, or else
+#' the name of a crs if it is different from "unknown", or
+#' else the user input if it was set, or else its "proj4string" representation;
 format.crs = function(x, ...) {
 	if (is.na(x))
 		NA_character_
 	else {
 		p = crs_parameters(x)
-		if (p$Name == "unknown")
-			x$input
-		else
+		if (p$Name == "unknown") {
+			if (x$input == "unknown")
+				x$proj4string
+			else
+				x$input
+		} else
 			x$Name
 	}
 }

@@ -52,10 +52,6 @@ RUN apt-get install -y \
 
 RUN locale-gen en_US.UTF-8
 
-<<<<<<< HEAD
-ENV PROJ_VERSION=7.0.0RC1
-ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-=======
 #ENV PROJ_VERSION=6.3.0
 #ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 #
@@ -67,7 +63,8 @@ ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 #  && make install \
 #  && cd .. \
 #  && ldconfig
->>>>>>> SetFromUserInput
+ENV PROJ_VERSION=7.0.0RC1
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 RUN export DEBIAN_FRONTEND=noninteractive; apt-get -y update \
   && apt-get install -y \
@@ -143,20 +140,11 @@ RUN git clone --depth 10 https://github.com/r-spatial/lwgeom.git
 RUN git clone --depth 10 https://github.com/r-spatial/stars.git
 #RUN git config --global user.email "edzer.pebesma@uni-muenster.de"
 
-<<<<<<< HEAD
 RUN R CMD build --no-build-vignettes --no-manual lwgeom
 RUN (cd sf; git pull)
 RUN R CMD build --no-build-vignettes --no-manual sf
 # RUN pkg-config proj --modversion
 RUN R CMD INSTALL sf
-=======
-RUN ls
-RUN cd sf && git pull && cd ..
-RUN R CMD build --no-build-vignettes --no-manual sf
-RUN _R_CHECK_FORCE_SUGGESTS_=false R CMD check sf_*gz
-RUN R CMD INSTALL sf
-RUN R CMD build --no-build-vignettes --no-manual lwgeom
->>>>>>> SetFromUserInput
 RUN R CMD INSTALL lwgeom
 RUN R CMD build --no-build-vignettes --no-manual stars
 RUN R CMD INSTALL stars
